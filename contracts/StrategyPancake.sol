@@ -1750,7 +1750,7 @@ contract StrategyPancake is Ownable, ReentrancyGuard, Pausable {
     address[] public token0ToEarnedPath;
     address[] public token1ToEarnedPath;
 
-    uint256 public earnFeeFactor = 200; // Percentage for rewards
+    uint256 public constant earnFeeFactor = 200; // Percentage for rewards
     uint256 public constant earnFeeFactorMax = 10000; // Facts for the reward
 
     constructor(
@@ -1918,7 +1918,7 @@ contract StrategyPancake is Ownable, ReentrancyGuard, Pausable {
     // 2. Converts farm tokens into want tokens
     // 3. Deposits want tokens
 
-    function earn() public whenNotPaused nonReentrant {
+    function earn() external whenNotPaused nonReentrant {
         require(isNativeVault, "!isNativeVault");
         _earn();
     }
@@ -2054,7 +2054,7 @@ contract StrategyPancake is Ownable, ReentrancyGuard, Pausable {
         return _earnedAmt;
     }
 
-    function convertDustToEarned() public whenNotPaused nonReentrant {
+    function convertDustToEarned() external whenNotPaused nonReentrant {
         require(isNativeVault, "!isNativeVault");
         require(!isCAKEStaking, "isCAKEStaking");
 
@@ -2099,7 +2099,7 @@ contract StrategyPancake is Ownable, ReentrancyGuard, Pausable {
         }
     }
 
-    function pause() public {
+    function pause() external {
         require(msg.sender == govAddress, "Not authorised");
         _pause();
     }
@@ -2109,31 +2109,31 @@ contract StrategyPancake is Ownable, ReentrancyGuard, Pausable {
         _unpause();
     }
 
-    function setEntranceFeeFactor(uint256 _entranceFeeFactor) public {
+    function setEntranceFeeFactor(uint256 _entranceFeeFactor) external {
         require(msg.sender == govAddress, "Not authorised");
         require(_entranceFeeFactor > entranceFeeFactorLL, "!safe - too low");
         require(_entranceFeeFactor <= entranceFeeFactorMax, "!safe - too high");
         entranceFeeFactor = _entranceFeeFactor;
     }
 
-    function setControllerFee(uint256 _controllerFee) public {
+    function setControllerFee(uint256 _controllerFee) external {
         require(msg.sender == govAddress, "Not authorised");
         require(_controllerFee <= controllerFeeUL, "too high");
         controllerFee = _controllerFee;
     }
 
-    function setbuyBackRate(uint256 _buyBackRate) public {
+    function setbuyBackRate(uint256 _buyBackRate) external {
         require(msg.sender == govAddress, "Not authorised");
         require(buyBackRate <= buyBackRateUL, "too high");
         buyBackRate = _buyBackRate;
     }
 
-    function setGov(address _govAddress) public {
+    function setGov(address _govAddress) external {
         require(msg.sender == govAddress, "!gov");
         govAddress = _govAddress;
     }
 
-    function setOnlyGov(bool _onlyGov) public {
+    function setOnlyGov(bool _onlyGov) external {
         require(msg.sender == govAddress, "!gov");
         onlyGov = _onlyGov;
     }
@@ -2142,7 +2142,7 @@ contract StrategyPancake is Ownable, ReentrancyGuard, Pausable {
         address _token,
         uint256 _amount,
         address _to
-    ) public {
+    ) external {
         require(msg.sender == govAddress, "!gov");
         require(_token != earnedAddress, "!safe");
         require(_token != wantAddress, "!safe");

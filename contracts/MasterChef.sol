@@ -61,13 +61,13 @@ contract MasterChef is Ownable, ReentrancyGuard {
     // fee address
     address public fee;
     // Owner reward per block: 10%
-    uint256 public ownerNATIVEReward = 1000;
+    uint256 public constant ownerNATIVEReward = 1000;
     // Referrals reward per block: 3%
     uint256 percReferrals = 300;
     // Natives per block: (0.0565 - owner 10%)
-    uint256 public NATIVEPerBlock = 50000000000000000;
+    uint256 public constant NATIVEPerBlock = 50000000000000000;
     // Native total supply: 24,650 = 24650e18
-    uint256 public NATIVEMaxSupply = 24650e18;
+    uint256 public constant NATIVEMaxSupply = 24650e18;
     // Approx Monday, 9 August 2021 19:00:00 GMT
     uint256 public startTime = 1628535600;
     // Counter StartTime
@@ -108,7 +108,7 @@ contract MasterChef is Ownable, ReentrancyGuard {
         address _strat,
         uint256 _depositFee,
         bool _isWithdrawFee
-    ) public onlyOwner {
+    ) external onlyOwner {
         require(_depositFee <= 1000, "add: invalid deposit fee basis points");
         if (_withUpdate) {
             massUpdatePools();
@@ -133,7 +133,7 @@ contract MasterChef is Ownable, ReentrancyGuard {
         uint256 _pid,
         uint256 _allocPoint,
         bool _withUpdate
-    ) public onlyOwner {
+    ) external onlyOwner {
         if (_withUpdate) {
             massUpdatePools();
         }
@@ -144,7 +144,7 @@ contract MasterChef is Ownable, ReentrancyGuard {
     }
 
     // Update the deposit fee of the given group. Can only be called by the owner.
-    function setDepositFee(uint256 _pid, uint256 _depositFee, bool _withUpdate, bool _isWithdrawFee) public onlyOwner {
+    function setDepositFee(uint256 _pid, uint256 _depositFee, bool _withUpdate, bool _isWithdrawFee) external onlyOwner {
         require(_depositFee <= 1000, "add: invalid deposit fee basis points");
         if (_withUpdate) {
             massUpdatePools();
@@ -251,7 +251,7 @@ contract MasterChef is Ownable, ReentrancyGuard {
     }
 
     // function to harvest all pools
-    function harvestAll() public nonReentrant {
+    function harvestAll() external nonReentrant {
         uint256 length = poolInfo.length;
         for (uint256 pid = 0; pid < length; ++pid) {
             PoolInfo storage pool = poolInfo[pid];
@@ -379,7 +379,7 @@ contract MasterChef is Ownable, ReentrancyGuard {
     }
 
     // Withdraw without caring about rewards. EMERGENCY ONLY.
-    function emergencyWithdraw(uint256 _pid) public nonReentrant {
+    function emergencyWithdraw(uint256 _pid) external nonReentrant {
         PoolInfo storage pool = poolInfo[_pid];
         UserInfo storage user = userInfo[_pid][msg.sender];
 
@@ -408,7 +408,7 @@ contract MasterChef is Ownable, ReentrancyGuard {
     }
 
     function inCaseOfRequiringChangeOfInitialDate(uint256 _newDate)
-        public
+        external
         onlyOwner
     {
         require(startTimeCount == 0, "!inCaseOfRequiringChangeOfInitialDate");
@@ -417,7 +417,7 @@ contract MasterChef is Ownable, ReentrancyGuard {
         startTimeCount = 1;
     }
 
-    function transferEarningTokenOwnership(address newOwner) public onlyOwner {
+    function transferEarningTokenOwnership(address newOwner) external onlyOwner {
         require(newOwner != address(0), "Ownable: new owner is the zero address");
         Ownable(NATIVE).transferOwnership(newOwner);
     }
@@ -438,7 +438,7 @@ contract MasterChef is Ownable, ReentrancyGuard {
         return withdrawalFeeBP[i];
     }
 
-    function setWithdrawFee(uint256[] memory _withdrawalFeeIntervals, uint16[] memory _withdrawalFeeBP) public onlyOwner {
+    function setWithdrawFee(uint256[] memory _withdrawalFeeIntervals, uint16[] memory _withdrawalFeeBP) external onlyOwner {
         require (_withdrawalFeeIntervals.length + 1 == _withdrawalFeeBP.length, 'setWithdrawFee: _withdrawalFeeBP length is one more than _withdrawalFeeIntervals length');
         require (_withdrawalFeeBP.length > 0, 'setWithdrawFee: _withdrawalFeeBP length is one more than 0');
         for (uint i = 0; i < _withdrawalFeeIntervals.length - 1; i++) {
@@ -451,7 +451,7 @@ contract MasterChef is Ownable, ReentrancyGuard {
         withdrawalFeeBP = _withdrawalFeeBP;
     }
 
-    function setPercReferrals(uint256 _value) public onlyOwner {
+    function setPercReferrals(uint256 _value) external onlyOwner {
         require(_value <= 500, "!value");
         percReferrals = _value;
     }

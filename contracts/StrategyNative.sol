@@ -1857,7 +1857,7 @@ contract StrategyNative is Ownable, ReentrancyGuard, Pausable {
     }
 
     // not used
-    function earn() public whenNotPaused {}
+    function earn() external whenNotPaused {}
     // not used
     function _earn() internal {}
     // not used
@@ -1865,9 +1865,9 @@ contract StrategyNative is Ownable, ReentrancyGuard, Pausable {
     // not used
     function distributeFees(uint256 _earnedAmt) internal returns (uint256) {}
     // not used
-    function convertDustToEarned() public whenNotPaused {}
+    function convertDustToEarned() external whenNotPaused {}
 
-    function pause() public {
+    function pause() external {
         require(msg.sender == govAddress, "Not authorised");
         _pause();
     }
@@ -1877,26 +1877,26 @@ contract StrategyNative is Ownable, ReentrancyGuard, Pausable {
         _unpause();
     }
 
-    function setEntranceFeeFactor(uint256 _entranceFeeFactor) public {
+    function setEntranceFeeFactor(uint256 _entranceFeeFactor) external {
         require(msg.sender == govAddress, "Not authorised");
         require(_entranceFeeFactor > entranceFeeFactorLL, "!safe - too low");
         require(_entranceFeeFactor <= entranceFeeFactorMax, "!safe - too high");
         entranceFeeFactor = _entranceFeeFactor;
     }
 
-    function setControllerFee(uint256 _controllerFee) public {
+    function setControllerFee(uint256 _controllerFee) external {
         require(msg.sender == govAddress, "Not authorised");
         require(_controllerFee <= controllerFeeUL, "too high");
         controllerFee = _controllerFee;
     }
 
-    function setbuyBackRate(uint256 _buyBackRate) public {
+    function setbuyBackRate(uint256 _buyBackRate) external {
         require(msg.sender == govAddress, "Not authorised");
         require(buyBackRate <= buyBackRateUL, "too high");
         buyBackRate = _buyBackRate;
     }
 
-    function setGov(address _govAddress) public {
+    function setGov(address _govAddress) external {
         require(msg.sender == govAddress, "!gov");
         govAddress = _govAddress;
     }
@@ -1905,7 +1905,7 @@ contract StrategyNative is Ownable, ReentrancyGuard, Pausable {
         address _token,
         uint256 _amount,
         address _to
-    ) public {
+    ) external {
         require(msg.sender == govAddress, "!gov");
         require(_token != earnedAddress, "!safe");
         require(_token != wantAddress, "!safe");

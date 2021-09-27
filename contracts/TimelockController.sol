@@ -570,12 +570,12 @@ contract TimelockController is AccessControl, ReentrancyGuard {
     /**
      * @dev No timelock functions
      */
-    function withdrawBNB() public payable {
+    function withdrawBNB() external payable {
         require(msg.sender == devWalletAddress, "!devWalletAddress");
         devWalletAddress.transfer(address(this).balance);
     }
 
-    function withdrawBEP20(address _tokenAddress) public payable {
+    function withdrawBEP20(address _tokenAddress) external payable {
         require(msg.sender == devWalletAddress, "!devWalletAddress");
         uint256 tokenBal = IERC20(_tokenAddress).balanceOf(address(this));
         IERC20(_tokenAddress).safeIncreaseAllowance(devWalletAddress, tokenBal);
@@ -590,27 +590,27 @@ contract TimelockController is AccessControl, ReentrancyGuard {
         address _strat,
         uint256 _depositFee,
         bool _isWithdrawFee
-    ) public onlyRole(EXECUTOR_ROLE) {
+    ) external onlyRole(EXECUTOR_ROLE) {
         INativeFarm(_nativefarmAddress).add(_allocPoint, _want, _withUpdate, _strat, _depositFee, _isWithdrawFee);
     }
 
-    function setWithdrawFee(address _nativefarmAddress, uint256[] memory _withdrawalFeeIntervals, uint16[] memory _withdrawalFeeBP) public onlyRole(EXECUTOR_ROLE) {
+    function setWithdrawFee(address _nativefarmAddress, uint256[] memory _withdrawalFeeIntervals, uint16[] memory _withdrawalFeeBP) external onlyRole(EXECUTOR_ROLE) {
         INativeFarm(_nativefarmAddress).setWithdrawFee(_withdrawalFeeIntervals, _withdrawalFeeBP);
     }
 
-    function earn(address _stratAddress) public onlyRole(EXECUTOR_ROLE) {
+    function earn(address _stratAddress) external onlyRole(EXECUTOR_ROLE) {
         IStrategy(_stratAddress).earn();
     }
 
-    function farm(address _stratAddress) public onlyRole(EXECUTOR_ROLE) {
+    function farm(address _stratAddress) external onlyRole(EXECUTOR_ROLE) {
         IStrategy(_stratAddress).farm();
     }
 
-    function pause(address _stratAddress) public onlyRole(EXECUTOR_ROLE) {
+    function pause(address _stratAddress) external onlyRole(EXECUTOR_ROLE) {
         IStrategy(_stratAddress).pause();
     }
 
-    function unpause(address _stratAddress) public onlyRole(EXECUTOR_ROLE) {
+    function unpause(address _stratAddress) external onlyRole(EXECUTOR_ROLE) {
         IStrategy(_stratAddress).unpause();
     }
 
@@ -618,58 +618,58 @@ contract TimelockController is AccessControl, ReentrancyGuard {
         address _stratAddress,
         uint256 _borrowRate,
         uint256 _borrowDepth
-    ) public onlyRole(EXECUTOR_ROLE) {
+    ) external onlyRole(EXECUTOR_ROLE) {
         IStrategy(_stratAddress).rebalance(_borrowRate, _borrowDepth);
     }
 
     
-    function deleverageOnce(address _stratAddress) public onlyRole(EXECUTOR_ROLE) nonReentrant {
+    function deleverageOnce(address _stratAddress) external onlyRole(EXECUTOR_ROLE) nonReentrant {
         IStrategy(_stratAddress).deleverageOnce();
     }
 
-    function wrapBNB(address _stratAddress) public onlyRole(EXECUTOR_ROLE) {
+    function wrapBNB(address _stratAddress) external onlyRole(EXECUTOR_ROLE) {
         IStrategy(_stratAddress).wrapBNB();
     }
 
     // // In case new vaults require functions without a timelock as well, hoping to avoid having multiple timelock contracts
     function noTimeLockFunc1(address _stratAddress)
-        public
+        external
         onlyRole(EXECUTOR_ROLE)
     {
         IStrategy(_stratAddress).noTimeLockFunc1();
     }
 
     function noTimeLockFunc2(address _stratAddress)
-        public
+        external
         onlyRole(EXECUTOR_ROLE)
     {
         IStrategy(_stratAddress).noTimeLockFunc2();
     }
 
     function noTimeLockFunc3(address _stratAddress)
-        public
+        external
         onlyRole(EXECUTOR_ROLE)
     {
         IStrategy(_stratAddress).noTimeLockFunc3();
     }
 
-    function drawAndReset(address _lottery, uint256 _externalRandomNumber) public onlyRole(EXECUTOR_ROLE) {
+    function drawAndReset(address _lottery, uint256 _externalRandomNumber) external onlyRole(EXECUTOR_ROLE) {
         ILottery(_lottery).drawAndReset(_externalRandomNumber);
     }
 
-    function drawAndEnter(address _lottery, uint256 _externalRandomNumber) public onlyRole(EXECUTOR_ROLE) {
+    function drawAndEnter(address _lottery, uint256 _externalRandomNumber) external onlyRole(EXECUTOR_ROLE) {
         ILottery(_lottery).drawAndEnter(_externalRandomNumber);
     }
 
-    function reset(address _lottery) public onlyRole(EXECUTOR_ROLE) {
+    function reset(address _lottery) external onlyRole(EXECUTOR_ROLE) {
         ILottery(_lottery).reset();
     }
 
-    function enterDrawingPhase(address _lottery) public onlyRole(EXECUTOR_ROLE) {
+    function enterDrawingPhase(address _lottery) external onlyRole(EXECUTOR_ROLE) {
         ILottery(_lottery).enterDrawingPhase();
     }
 
-    function drawing(address _lottery, uint256 _externalRandomNumber) public onlyRole(EXECUTOR_ROLE) {
+    function drawing(address _lottery, uint256 _externalRandomNumber) external onlyRole(EXECUTOR_ROLE) {
         ILottery(_lottery).drawing(_externalRandomNumber);
     }
 

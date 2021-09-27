@@ -1119,7 +1119,7 @@ abstract contract StrategyV3 is Ownable, ReentrancyGuard, Pausable {
     uint256 public constant withdrawFeeFactorMax = 10000;
     uint256 public constant withdrawFeeFactorLL = 9950;
 
-    uint256 public slippageFactor = 950; // 5% default slippage tolerance
+    uint256 public constant slippageFactor = 950; // 5% default slippage tolerance
     uint256 public constant slippageFactorUL = 995;
 
     address[] public earnedToNATIVEPath;

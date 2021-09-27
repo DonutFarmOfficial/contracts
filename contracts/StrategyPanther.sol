@@ -1066,7 +1066,7 @@ contract StrategyPanther is Ownable, ReentrancyGuard, Pausable {
     address public earnedAddress;
     address public uniRouterAddress; // uniswap, pancakeswap etc
     address public buybackRouterAddress; // uniswap, pancakeswap etc
-    uint256 public routerDeadlineDuration = 300;  // Set on global level, could be passed to functions via arguments
+    uint256 public constant routerDeadlineDuration = 300;  // Set on global level, could be passed to functions via arguments
 
     address public wbnbAddress; // should be WBNB or BUSD
     address public nativeFarmAddress;
@@ -1114,7 +1114,7 @@ contract StrategyPanther is Ownable, ReentrancyGuard, Pausable {
     address[] public earnedToWBNBPath;
     address[] public WBNBToNATIVEPath;
 
-    uint256 public earnFeeFactor = 200; // Percentage for rewards
+    uint256 public constant earnFeeFactor = 200; // Percentage for rewards
     uint256 public constant earnFeeFactorMax = 10000; // Facts for the reward
 
     constructor(
@@ -1312,7 +1312,7 @@ contract StrategyPanther is Ownable, ReentrancyGuard, Pausable {
     // 2. Converts farm tokens into want tokens
     // 3. Deposits want tokens
 
-    function earn() public nonReentrant whenNotPaused {
+    function earn() external nonReentrant whenNotPaused {
         require(isAutoComp, "!isAutoComp");
         _earn();
     }
@@ -1501,7 +1501,7 @@ contract StrategyPanther is Ownable, ReentrancyGuard, Pausable {
         return _earnedAmt;
     }
 
-    function convertDustToEarned() public whenNotPaused {
+    function convertDustToEarned() external whenNotPaused {
         require(isAutoComp, "!isAutoComp");
         require(!isSingleVault, "isSingleVault");
 
@@ -1546,7 +1546,7 @@ contract StrategyPanther is Ownable, ReentrancyGuard, Pausable {
         }
     }
 
-    function pause() public onlyAllowGov {
+    function pause() external onlyAllowGov {
         _pause();
     }
 
@@ -1554,45 +1554,45 @@ contract StrategyPanther is Ownable, ReentrancyGuard, Pausable {
         _unpause();
     }
 
-    function setEntranceFeeFactor(uint256 _entranceFeeFactor) public onlyAllowGov {
+    function setEntranceFeeFactor(uint256 _entranceFeeFactor) external onlyAllowGov {
         require(_entranceFeeFactor > entranceFeeFactorLL, "!safe - too low");
         require(_entranceFeeFactor <= entranceFeeFactorMax, "!safe - too high");
         entranceFeeFactor = _entranceFeeFactor;
     }
 
-    function setExitFeeFactor(uint256 _exitFeeFactor) public onlyAllowGov{
+    function setExitFeeFactor(uint256 _exitFeeFactor) external onlyAllowGov{
         require(_exitFeeFactor > exitFeeFactorLL, "!safe - too low");
         require(_exitFeeFactor <= exitFeeFactorMax, "!safe - too high");
         exitFeeFactor = _exitFeeFactor;
     }
 
-    function setControllerFee(uint256 _controllerFee) public onlyAllowGov{
+    function setControllerFee(uint256 _controllerFee) external onlyAllowGov{
         require(_controllerFee <= controllerFeeUL, "too high");
         controllerFee = _controllerFee;
     }
 
-    function setDepositFeeFactor(uint256 _depositFeeFactor) public onlyAllowGov{
+    function setDepositFeeFactor(uint256 _depositFeeFactor) external onlyAllowGov{
         require(_depositFeeFactor > depositFeeFactorLL, "!safe - too low");
         require(_depositFeeFactor <= depositFeeFactorMax, "!safe - too high");
         depositFeeFactor = _depositFeeFactor;
     }
 
-    function setWithdrawFeeFactor(uint256 _withdrawFeeFactor) public onlyAllowGov {
+    function setWithdrawFeeFactor(uint256 _withdrawFeeFactor) external onlyAllowGov {
         require(_withdrawFeeFactor > withdrawFeeFactorLL, "!safe - too low");
         require(_withdrawFeeFactor <= withdrawFeeFactorMax, "!safe - too high");
         withdrawFeeFactor = _withdrawFeeFactor;
     }
 
-    function setbuyBackRate(uint256 _buyBackRate) public onlyAllowGov {
+    function setbuyBackRate(uint256 _buyBackRate) external onlyAllowGov {
         require(buyBackRate <= buyBackRateUL, "too high");
         buyBackRate = _buyBackRate;
     }
 
-    function setGov(address _govAddress) public onlyAllowGov {
+    function setGov(address _govAddress) external onlyAllowGov {
         govAddress = _govAddress;
     }
 
-    function setBuybackRouterAddress(address _buybackRouterAddress) public onlyAllowGov {
+    function setBuybackRouterAddress(address _buybackRouterAddress) external onlyAllowGov {
         buybackRouterAddress = _buybackRouterAddress;
     }
 
@@ -1600,7 +1600,7 @@ contract StrategyPanther is Ownable, ReentrancyGuard, Pausable {
         address _token,
         uint256 _amount,
         address _to
-    ) public onlyAllowGov {
+    ) external onlyAllowGov {
         require(_token != earnedAddress, "!safe");
         require(_token != wantAddress, "!safe");
         IERC20(_token).safeTransfer(_to, _amount);
