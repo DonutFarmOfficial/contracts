@@ -68,13 +68,13 @@ contract MasterChef is Ownable, ReentrancyGuard {
     uint256 public constant NATIVEPerBlock = 50000000000000000;
     // Native total supply: 24,650 = 24650e18
     uint256 public constant NATIVEMaxSupply = 24650e18;
-    // Approx Monday, 9 August 2021 19:00:00 GMT
-    uint256 public startTime = 1628535600;
+    // Approx Monday, 25 October 2021 19:00:00 GMT
+    uint256 public startTime = 1635188400;
     // Counter StartTime
     uint256 public startTimeCount = 0;
 
-    uint256[] public withdrawalFeeIntervals = [1];
-    uint16[] public withdrawalFeeBP = [0, 0];
+    uint256[] public withdrawalFeeIntervals = [28800, 57600, 86400];
+    uint16[] public withdrawalFeeBP = [300, 200, 100, 0];
     uint16 public constant MAX_WITHDRAWAL_FEE_BP = 500;
 
     PoolInfo[] public poolInfo; // Info of each pool.

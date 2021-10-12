@@ -7,7 +7,7 @@ pragma solidity ^0.6.12;
 */
 
 interface IHelp {
-    function Bytecode_2_0_3() external view returns (bool);
+    function Bytecode_2_0_4() external view returns (bool);
 }
 
 // import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/IERC20.sol";
