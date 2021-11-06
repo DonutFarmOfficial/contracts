@@ -55,8 +55,8 @@ contract SmartChef is Ownable, ReentrancyGuard {
     uint16 public constant MAX_WITHDRAWAL_FEE_BP = 500;
     // fee address
     address public fee;
-    // Approx Monday, 25 October 2021 19:00:00 GMT
-    uint256 public startTime = 1635188400;
+    // Approx Monday, 8 November 2021 19:00:00 GMT
+    uint256 public startTime = 1636398000;
     // Counter StartTime
     uint256 public startTimeCount = 0;
 

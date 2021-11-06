@@ -64,12 +64,12 @@ contract MasterChef is Ownable, ReentrancyGuard {
     uint256 public constant ownerNATIVEReward = 1000;
     // Referrals reward per block: 3%
     uint256 percReferrals = 300;
-    // Natives per block: (0.0565 - owner 10%)
-    uint256 public constant NATIVEPerBlock = 50000000000000000;
-    // Native total supply: 24,650 = 24650e18
-    uint256 public constant NATIVEMaxSupply = 24650e18;
-    // Approx Monday, 25 October 2021 19:00:00 GMT
-    uint256 public startTime = 1635188400;
+    // Natives per block: (0.0727 - owner 10%)
+    uint256 public constant NATIVEPerBlock = 72700000000000000;
+    // Native total supply: 60,000 = 60000e18
+    uint256 public constant NATIVEMaxSupply = 60000e18;
+    // Approx Monday, 8 November 2021 19:00:00 GMT
+    uint256 public startTime = 1636398000;
     // Counter StartTime
     uint256 public startTimeCount = 0;
 
